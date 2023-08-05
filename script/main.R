@@ -20,4 +20,6 @@ tibble(value = as.numeric(Dolar_360$bid),
   ggplot(aes(x = Date, y = value)) +
   geom_point(color = "black",size =2,alpha = .6) +
   geom_line(color = "black") +
+  geom_point(color = "red",size =2) +
+  geom_line(color = "red") +
   labs(title = glue("{Sys.Date() - 360 + 1} - {Sys.Date()}"))

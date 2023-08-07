@@ -4,7 +4,8 @@ library(timetk)
 
 
 BRLUSD <- tibble(value = as.numeric(Dolar_360$bid),
-       Date = Dates)
+       Date = Dates) %>% 
+  arrange(Date)
 
 
 BRLUSD %>% 

@@ -7,6 +7,17 @@ BRLUSD <- tibble(value = as.numeric(Dolar_360$bid),
        Date = Dates) %>% 
   arrange(Date)
 
+#Dolar truth values 
+
+# dolar_data <- list()
+#update base
+
+dolar_data[[length(dolar_data)+1]] <- BRLUSD
+
+names(dolar_data)[length(dolar_data)] <- paste("Dolar series",Sys.Date())
+
+names(dolar_data)
+# Tidymodels --------------------------------------------------------------
 
 BRLUSD %>% 
   plot_time_series(
@@ -67,16 +78,24 @@ model_tbl <- modeltime_table(
   model_fit_lm_recursive
 ) 
 
-model_tbl %>% 
-  
-  # Forecast using future data
+# Forecast using future data
+forecast <- model_tbl %>%
   modeltime_forecast(
     new_data    = future_data,
     actual_data = BRLUSD
-  ) %>%
-  
-  # Visualize the forecast
+  )
+# Visualize the forecast
+forecast %>%
   plot_modeltime_forecast(
     .interactive        = FALSE,
     .conf_interval_show = FALSE
   )
+
+# save the forecast
+# forecast_list <- list()
+
+forecast_list[[length(forecast_list) + 1]] <- forecast %>%
+  select(value = .value,
+         Dates = .index) %>% 
+  slice_max(Dates,n = 7)
+names(forecast_list)[length(forecast_list)] <- paste("Dolar series",Sys.Date())
